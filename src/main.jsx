@@ -1,10 +1,25 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import { Route } from 'react-router-dom'
+import { BrowserRouter,createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
+import Home from './Home.jsx'
+import Wrapped from './Wrapped.jsx'
+import Root from './Root.jsx'
+import FindWrapped from './findWrapped.jsx'
+
+const router=createBrowserRouter(
+  createRoutesFromElements(
+    <Route path='/' element={<Root/>}>
+      <Route index element={<Home />} />
+      <Route path='/wrapped' element={<FindWrapped/>} />
+      <Route path='/wrapped/:user' element={<Wrapped/>} />
+    </Route>
+  )
+)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router}/>
   </StrictMode>,
 )
