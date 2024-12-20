@@ -41,6 +41,7 @@ function UserForm(){
 
           const prCountData = await fetchData(`https://api.github.com/search/issues?q=author:${username}+type:pr+created:2024-01-01..2024-12-31`);
 
+          const stars=await fetch(`https://api.github-star-counter.workers.dev/user/${username}`)
           return {
             generalUserData:generalUserData,
             contributionsData:contributionsData,
@@ -62,28 +63,24 @@ function UserForm(){
     }
 
     return (
-        <>
-            <Form
-            form={form}
-            onFinish={onFinish}
-            layout="vertical"
-            >
-            <Form.Item
-          name="username"
-          label="Username"
-          rules={[
-            { required: true, message: 'Please input your username!' },
-          ]}
-        >
-          <Input placeholder="Enter github username" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Submit
-          </Button>
-        </Form.Item>    
-            </Form>        
-        </>
+      <>
+        <Form form={form} onFinish={onFinish} layout="vertical" className="max-w-md mx-auto p-4 bg-gray-800 rounded-lg shadow-md">
+          <Form.Item
+            name="username"
+            label="Username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input placeholder="Enter github username" className="border-gray-500 bg-gray-700 text-black rounded-md p-2" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" block className="bg-blue-500 hover:bg-blue-600 text-white">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </>
+
+
     )
 }
 
