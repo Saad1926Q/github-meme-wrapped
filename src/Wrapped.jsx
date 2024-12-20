@@ -5,7 +5,9 @@ export default function Wrapped(){
     const {user}=useParams()
     const location = useLocation();
 
-    const userInfo=location.state
+    const userInfo=location.state.generalUserData
+
+    console.log(location.state)
 
     return(
         <div className="min-h-screen bg-gray-50 py-10">
