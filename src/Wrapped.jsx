@@ -1,22 +1,27 @@
 import { useParams,useLocation } from "react-router-dom"
-import React from 'react';
-import { Carousel } from 'antd';
+import React, { useEffect } from 'react';
+import { useState } from "react";
+import { Carousel, message } from 'antd';
+import Card from 'antd/es/card/Card';
+
 import StartingCard from "./components/StartingCard";
 import ContributionsCard from "./components/ContributionsCard";
 import PullRequestsCard from "./components/PullRequestsCard";
 import BadgeCard from "./components/BadgeCard";
 
 //Import Assets
-import badgeTouchgrass from "./assets/badge_touchgrass.png"
+import touchGrass from "./assets/badge_touchgrass.png"
 import broStinks from "./assets/badge_stinky.png"
-import BroIsCooked from "./assets/badge_cooked.png"
+import cooked from "./assets/badge_cooked.png"
 import chillGuy from "./assets/badge_chillguy.png"
 import badgeAura from "./assets/badge_aura.png"
 import letHimCook from "./assets/badge_let_him_cook.png"
+import broFellOff from "./assets/badge_brofelloff.png"
+import npcAhh from "./assets/badge_npc.png"
 
 export default function Wrapped(){
 
-    const gradients=["linear-gradient(135deg, #a18cd1, #fbc2eb)","linear-gradient(to top left, #00b4db, #0083b0)","linear-gradient(90deg, #2bc0e4, #eaecc6)","linear-gradient(to top, #2c3e50, #bdc3c7),linear-gradient(90deg, #f6d365, #fda085),linear-gradient(135deg, #a6c0fe, #f68084),linear-gradient(45deg, #9dff2f, #1b9e77),linear-gradient(to top, #2bc0e4, #eaecc6),linear-gradient(135deg, #d500f9, #ff4081),linear-gradient(90deg, #c9e2c7, #d6f9e8),linear-gradient(45deg, #fbd3e9, #bb377d),linear-gradient(135deg, #ff9800, #ff5722)"]
+    const gradients=["linear-gradient(135deg, #a18cd1, #fbc2eb)","linear-gradient(to top left, #00b4db, #0083b0)","linear-gradient(to top, #2c3e50, #bdc3c7),linear-gradient(90deg, #f6d365, #fda085),linear-gradient(135deg, #a6c0fe, #f68084),linear-gradient(45deg, #9dff2f, #1b9e77),linear-gradient(to top, #2bc0e4, #eaecc6),linear-gradient(135deg, #d500f9, #ff4081),linear-gradient(90deg, #c9e2c7, #d6f9e8),linear-gradient(45deg, #fbd3e9, #bb377d),linear-gradient(135deg, #ff9800, #ff5722)"]
 
     const gradient=gradients[Math.floor(Math.random()*gradients.length)]
 
@@ -24,44 +29,164 @@ export default function Wrapped(){
     const location = useLocation();
     const state=location.state
 
+    const [hasBadge,setHasBadge]=useState(false)
+    const [badgeStatuses, setBadgeStatuses] = useState({
+      cooked: false,
+      chillGuy: false,
+      touchGrass: false,
+      broStinks: false,
+      letHimCook: false,
+      broFellOff: false,
+    });
+
+    const badges={
+      cooked:{
+        message:"Bro is cooked... Where's the activity?",
+        image:cooked
+      },
+      chillGuy:{
+        message:"Just a chill guy",
+        image:chillGuy
+      },
+      touchGrass:{
+        message:"Take a break, step outside, and touch some grass!",
+        image:touchGrass
+      },
+      broStinks:{
+        message:"Bro Probably Hasn't Taken a Bath in Ages🛁😂🤢😂 Bro’s GitHub streak is longer than his last conversation with a human.",
+        image:broStinks
+      },
+      letHimCook:{
+        message:"Bro has been cooking… 🍳🔥",
+        image:letHimCook
+      },
+      broFellOff:{
+        message:"Bro Fell Off😂😂",
+        image:broFellOff
+      },
+      npcAhh:{
+        message:"Just vibing in the background like a true NPC. 🕶️🤖 Keep doing your thing, mysterious one!",
+        image:npcAhh
+      }
+    }
+
+
     const userInfo=state.generalUserData
 
-    const thisYear=2024
-    const lastYear=2023
+    const thisYear=new Date().getFullYear()
+    const lastYear=thisYear-1
 
     const username=state.generalUserData.login
     const pullRequests=state.prCountData.total_count
-    const lastYearContributions=state.contributionsData.total[lastYear]
-    const thisYearContributions=state.contributionsData.total[thisYear]
+    const lastYearContributions=state.contributionsData.total[lastYear]??0
+    const thisYearContributions=state.contributionsData.total[thisYear]??0
     const avatar=state.generalUserData.avatar_url
+
+    useEffect(()=>{
+      const statuses={...badgeStatuses}
+      let badgeCriteriaMet = false;
+
+      if (thisYearContributions < 20) {
+        statuses.cooked = true;
+        badgeCriteriaMet = true;
+      } else if (thisYearContributions >= 50 && thisYearContributions < 200) {
+        statuses.chillGuy = true;
+        badgeCriteriaMet = true;
+      } else if (thisYearContributions >= 200 && thisYearContributions < 500) {
+        statuses.touchGrass = true;
+        badgeCriteriaMet = true;
+      } else if (thisYearContributions >= 500) {
+        statuses.broStinks = true;
+        badgeCriteriaMet = true;
+      }
+
+      if (lastYearContributions) {
+        const improvement =
+          ((thisYearContributions - lastYearContributions) /lastYearContributions) *100;
+        if (improvement >= 40) {
+          statuses.letHimCook = true;
+          badgeCriteriaMet = true;
+        } else if (thisYearContributions < lastYearContributions) {
+          statuses.broFellOff = true;
+          badgeCriteriaMet = true;
+        }
+      }
+
+      setBadgeStatuses(statuses);
+      setHasBadge(badgeCriteriaMet);
+    },[lastYearContributions, thisYearContributions])
 
 
     return(
-      <div className="flex justify-center items-center min-h-screen bg-gray-900">
-  <div className="max-w-md mx-auto my-8">
-    <Carousel className="w-full h-[70vh]">
-      <div className="flex justify-center items-center h-full">
-        <StartingCard username={username} year={thisYear} gradient={gradient} avatar={avatar}/>
-      </div>
+    <div className="flex justify-center items-center min-h-screen bg-gray-900">
+      <div className="max-w-md mx-auto my-8">
+        <Carousel className="w-full h-[70vh]" draggable={true}>
+          <div className="flex justify-center items-center h-full">
+            <StartingCard username={username} year={thisYear} gradient={gradient} avatar={avatar} />
+          </div>
 
-      <div className="flex justify-center items-center h-full">
-        <ContributionsCard
-          lastYearContributions={lastYearContributions}
-          thisYearContributions={thisYearContributions}
-          lastYear={lastYear}
-          gradient={gradient}
-        />
-      </div>
+          <div className="flex justify-center items-center h-full">
+            <ContributionsCard
+              lastYearContributions={lastYearContributions}
+              thisYearContributions={thisYearContributions}
+              lastYear={lastYear}
+              gradient={gradient}
+            />
+          </div>
 
-      <div className="flex justify-center items-center h-full">
-        <PullRequestsCard pullRequests={pullRequests} gradient={gradient} />
-      </div>
-      <div className="flex justify-center items-center h-full">
-        <BadgeCard imagePath={broStinks} message="Over 500 contributions in a year! Bro hasn't taken a bath in ages. 🛁😂" gradient={gradient} />
-      </div>
-    </Carousel>
-  </div>
-</div>
+          <div className="flex justify-center items-center h-full">
+            <PullRequestsCard pullRequests={pullRequests} gradient={gradient} />
+          </div>
+            {hasBadge ? (
+              <div className="flex justify-center items-center h-full">
+                <Card
+                  className="shadow-lg border border-gray-300 rounded-md w-full h-[250px] flex flex-col items-center justify-center"
+                  style={{ background: `${gradient}` }}
+                >
+                  <p className="mt-4 text-2xl font-bold text-center text-gray-900 px-6">
+                    Here are your badges! 🎉🏅
+                  </p>
 
-    )
+                </Card>
+              </div>
+            ) : (<div className="flex justify-center items-center h-full">
+              <Card
+                className="shadow-lg border border-gray-300 rounded-md w-full h-[250px] flex flex-col items-center justify-center"
+                style={{ background: `${gradient}` }}
+              >
+                <p className="mt-4 text-2xl font-bold text-center text-gray-900 px-6">
+                  Your GitHub activity was too mysterious for us to find patterns. 🕵️‍♂️🔍
+                </p>
+              </Card>
+            </div>)}
+          {hasBadge?(Object.entries(badgeStatuses)
+            .filter(([key, status]) => status)
+            .map(([key]) => {
+              return (
+                <div className="flex justify-center items-center h-full" key={key}>
+                  <BadgeCard
+                    imagePath={badges[key].image}
+                    message={badges[key].message}
+                    gradient={gradient}
+                  />
+                </div>)
+            })):(<div className="flex justify-center items-center h-full">
+              <Card
+                className="shadow-lg border border-gray-300 rounded-md w-full h-[250px] flex flex-col items-center justify-center"
+                style={{ background: `${gradient}` }}
+              >
+                <div className="flex justify-center items-center">
+                <img src={npcAhh} alt="NPC Ahh" className="w-[100px] h-[100px] object-contain" />
+                </div>
+                <p className="mt-4 text-2xl font-bold text-center text-gray-900 px-6">NPC Ahh</p>
+                <p className="mt-2 text-center text-gray-900 px-6 font-semibold">
+                  Sometimes, your GitHub contributions confuse us! 😅
+                </p>
+              </Card>
+            </div>)}
+        </Carousel>
+      </div>
+    </div>
+
+  )
 }

@@ -2,6 +2,9 @@ import React from 'react';
 import Card from 'antd/es/card/Card';
 
 const BadgeCard = ({ imagePath, message, gradient }) => {
+
+
+    
     return (
       <Card
         className="shadow-lg border border-gray-300 rounded-md w-full h-[250px] flex flex-col items-center justify-center"
@@ -14,7 +17,7 @@ const BadgeCard = ({ imagePath, message, gradient }) => {
                     className="w-36 h-36 object-contain"
                 />
             </div>
-        <p className="text-sm text-gray-800 font-bold text-center">
+        <p className="mt-4 text-base text-black font-bold text-center">
           {message}
         </p>
       </Card>

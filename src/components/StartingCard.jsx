@@ -6,7 +6,7 @@ const StartingCard = ({ username, year,gradient,avatar=null }) => {
   return (
     <Card className="shadow-lg border border-gray-300 rounded-md w-full h-[250px]" style={{ background: `${gradient}` }}>
       <h2 className="text-2xl font-bold text-center">
-        {username}'s Github Wrapped for {year}
+        {username}'s Github Wrapped
       </h2>
       {avatar && (            <div className="flex items-center justify-center w-full h-2/3">
                 <img
