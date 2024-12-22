@@ -7,6 +7,7 @@ import Home from './Home.jsx'
 import Wrapped from './Wrapped.jsx'
 import Root from './Root.jsx'
 import FindWrapped from './findWrapped.jsx'
+import WrappedSummary from './WrappedSummary.jsx'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -14,6 +15,7 @@ const router=createBrowserRouter(
       <Route index element={<Home />} />
       <Route path='/wrapped' element={<FindWrapped/>} />
       <Route path='/wrapped/:user' element={<Wrapped/>} />
+      <Route path='/wrapped/:user/summary' element={<WrappedSummary/>}/>
     </Route>
   )
 )

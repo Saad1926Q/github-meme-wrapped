@@ -18,12 +18,11 @@ import badgeAura from "./assets/badge_aura.png"
 import letHimCook from "./assets/badge_let_him_cook.png"
 import broFellOff from "./assets/badge_brofelloff.png"
 import npcAhh from "./assets/badge_npc.png"
+import WrappedSummaryRedirectCard from "./components/WrappedSummaryRedirectCard";
 
 export default function Wrapped(){
 
-    const gradients=["linear-gradient(135deg, #a18cd1, #fbc2eb)","linear-gradient(to top left, #00b4db, #0083b0)","linear-gradient(to top, #2c3e50, #bdc3c7),linear-gradient(90deg, #f6d365, #fda085),linear-gradient(135deg, #a6c0fe, #f68084),linear-gradient(45deg, #9dff2f, #1b9e77),linear-gradient(to top, #2bc0e4, #eaecc6),linear-gradient(135deg, #d500f9, #ff4081),linear-gradient(90deg, #c9e2c7, #d6f9e8),linear-gradient(45deg, #fbd3e9, #bb377d),linear-gradient(135deg, #ff9800, #ff5722)"]
-
-    const gradient=gradients[Math.floor(Math.random()*gradients.length)]
+    const gradient="linear-gradient(135deg, #a18cd1, #fbc2eb)"
 
     const {user}=useParams()
     const location = useLocation();
@@ -38,6 +37,8 @@ export default function Wrapped(){
       letHimCook: false,
       broFellOff: false,
     });
+
+    const [earnedBadges,setEarnedBadges]=useState([])
 
     const badges={
       cooked:{
@@ -82,6 +83,22 @@ export default function Wrapped(){
     const thisYearContributions=state.contributionsData.total[thisYear]??0
     const avatar=state.generalUserData.avatar_url
 
+    const getEarnedBadges = (badgeStatuses) => {
+      const badgeNames = {
+        cooked: 'Cooked Coder',
+        chillGuy: 'Chill Coder',
+        touchGrass: 'Touch Grass',
+        broStinks: 'Bro Stinks',
+        letHimCook: 'Let Him Cook',
+        broFellOff: 'Bro Fell Off',
+        npcCoder: 'NPC Coder',
+      };
+  
+      return Object.keys(badgeStatuses)
+        .filter((badge) => badgeStatuses[badge])  
+        .map((badge) => badgeNames[badge]);
+    };
+
     useEffect(()=>{
       const statuses={...badgeStatuses}
       let badgeCriteriaMet = false;
@@ -114,7 +131,14 @@ export default function Wrapped(){
 
       setBadgeStatuses(statuses);
       setHasBadge(badgeCriteriaMet);
+
+      const earnedBadges = getEarnedBadges(statuses);
+
+      setEarnedBadges(earnedBadges)
+      
     },[lastYearContributions, thisYearContributions])
+
+
 
 
     return(
@@ -184,6 +208,9 @@ export default function Wrapped(){
                 </p>
               </Card>
             </div>)}
+            <div className="flex justify-center items-center h-full">
+            <WrappedSummaryRedirectCard username={username} gradient={gradient} totalContributions={thisYearContributions} pullRequests={pullRequests} badgesStatuses={badgeStatuses} badges={earnedBadges} avatar={avatar} />
+          </div>
         </Carousel>
       </div>
     </div>

@@ -14,7 +14,7 @@ const ContributionsCard = ({ lastYearContributions, thisYearContributions, lastY
         {lastYearContributions ? (
           <p>You had <strong>{lastYearContributions}</strong> contributions in {lastYear}.</p>
         ) : (
-          <p>No contributions found for {year - 1}.</p>
+          <p>No contributions found for {lastYear}.</p>
         )}
         <p>
           You had <strong>{thisYearContributions}</strong> contributions this year.
