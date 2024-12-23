@@ -1,4 +1,4 @@
-import { useParams,useLocation } from "react-router-dom"
+import { useParams,useLocation,useNavigate } from "react-router-dom"
 import React, { useEffect } from 'react';
 import { useState } from "react";
 import { Carousel, message } from 'antd';
@@ -27,6 +27,13 @@ export default function Wrapped(){
     const {user}=useParams()
     const location = useLocation();
     const state=location.state
+    const navigate=useNavigate()
+
+    useEffect(()=>{
+      if(!state){
+        navigate('/')
+      }
+    },[location,navigate])
 
     const [hasBadge,setHasBadge]=useState(false)
     const [badgeStatuses, setBadgeStatuses] = useState({
@@ -72,23 +79,22 @@ export default function Wrapped(){
     }
 
 
-    const userInfo=state.generalUserData
-
     const thisYear=new Date().getFullYear()
     const lastYear=thisYear-1
 
-    const username=state.generalUserData.login
-    const pullRequests=state.prCountData.total_count
-    const lastYearContributions=state.contributionsData.total[lastYear]??0
-    const thisYearContributions=state.contributionsData.total[thisYear]??0
-    const avatar=state.generalUserData.avatar_url
+    const username=state?.generalUserData?.login??''
+    const pullRequests=state?.prCountData?.total_count??0
+    const lastYearContributions=state?.contributionsData?.total[lastYear]??0
+    const thisYearContributions=state?.contributionsData?.total[thisYear]??0
+    const avatar=state?.generalUserData?.avatar_url??''
+
 
     const getEarnedBadges = (badgeStatuses) => {
       const badgeNames = {
         cooked: 'Cooked Coder',
         chillGuy: 'Chill Coder',
         touchGrass: 'Touch Grass',
-        broStinks: 'Bro Stinks',
+        broStinks: 'Bro hasnt taken a bath in ages',
         letHimCook: 'Let Him Cook',
         broFellOff: 'Bro Fell Off',
         npcCoder: 'NPC Coder',
@@ -136,7 +142,7 @@ export default function Wrapped(){
 
       setEarnedBadges(earnedBadges)
       
-    },[lastYearContributions, thisYearContributions])
+    },[lastYearContributions, thisYearContributions,state])
 
 
 
