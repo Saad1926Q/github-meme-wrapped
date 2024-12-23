@@ -140,7 +140,7 @@ export default function Wrapped(){
       if (lastYearContributions) {
         const improvement =
           ((thisYearContributions - lastYearContributions) /lastYearContributions) *100;
-        if (improvement >= 40) {
+        if (improvement >= 40 && thisYearContributions>20) {
           statuses.letHimCook = true;
           badgeCriteriaMet = true;
         } else if (thisYearContributions < lastYearContributions) {
