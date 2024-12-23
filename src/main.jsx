@@ -6,7 +6,7 @@ import { BrowserRouter,createBrowserRouter, createRoutesFromElements, RouterProv
 import Home from './Home.jsx'
 import Wrapped from './Wrapped.jsx'
 import Root from './Root.jsx'
-import FindWrapped from './findWrapped.jsx'
+import FindWrapped from './FindWrapped.jsx'
 import WrappedSummary from './WrappedSummary.jsx'
 
 const router=createBrowserRouter(
