@@ -44,8 +44,11 @@ const WrappedSummaryRedirectCard = ({ username,gradient,totalContributions,pullR
       };
 
       const getDeveloperPersonality = (badgeStatuses) => {
-        if (badgeStatuses.touchGrass || badgeStatuses.broStinks) {
-          return developerPersonalities.touchGrass;
+        if(badgeStatuses.touchGrass){
+          return developerPersonalities.touchGrass
+        }
+        if ( badgeStatuses.broStinks) {
+          return developerPersonalities.streakKing;
         }
         if (badgeStatuses.cooked) {
           return developerPersonalities.cookedCoder;

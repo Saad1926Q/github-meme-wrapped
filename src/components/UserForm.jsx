@@ -1,4 +1,4 @@
-import { Form, Input, Button, message, Spin } from 'antd';
+import { notification,Form, Input, Button, message, Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Octokit } from "@octokit/rest";
 import { useState } from 'react';
@@ -16,16 +16,24 @@ function UserForm(){
       auth: PERSONAL_ACCESS_TOKEN, 
     });
 
+    const openNotificationWithIcon = (type, message, description) => {
+      notification[type]({
+        message,
+        description,
+        placement: 'topRight',
+      });
+    };
+
     async function fetchData(url){
       try {
         const response=await fetch(url)
         if(!response.ok){
-          throw new Error(`Error fetching data from ${url}`)
+          openNotificationWithIcon('error', 'Error', `Failed to fetch data from ${url}.`);
         }
         const data=await response.json()
         return data
       } catch (error) {
-        console.error(error)
+        openNotificationWithIcon('error', 'Error', `An error occurred while fetching data: ${error.message}`);
         return null
       }
     }
@@ -46,6 +54,12 @@ function UserForm(){
 
           const stars=await fetch(`https://api.github-star-counter.workers.dev/user/${username}`)
 
+          if (!contributionsData || !prCountData) {
+            openNotificationWithIcon('error', 'Error', 'Some data could not be fetched.');
+            setLoading(false);
+            return null;
+          }
+
           setLoading(false)
           return {
             generalUserData:generalUserData,
@@ -54,8 +68,8 @@ function UserForm(){
           }
 
         } catch (error) {
-            console.log(error)
-            setLoading(false)
+          openNotificationWithIcon('error', 'Error', `Failed to fetch user data`);
+          setLoading(false);
         }
     }
 
@@ -64,7 +78,7 @@ function UserForm(){
           let info = await getInfo(values.username)
             navigate(`/wrapped/${info.generalUserData.login}`,{state:info,})
         } catch (error) {
-            console.log(error.message)
+          openNotificationWithIcon('error', 'Error', `Failed to get your wrapped `);
         }
     }
 

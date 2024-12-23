@@ -1,7 +1,7 @@
 import { useParams,useLocation,useNavigate } from "react-router-dom"
-import React, { useEffect } from 'react';
+import React, { useEffect,useRef } from 'react';
 import { useState } from "react";
-import { Carousel, message } from 'antd';
+import { Carousel, message,notification  } from 'antd';
 import Card from 'antd/es/card/Card';
 
 import StartingCard from "./components/StartingCard";
@@ -22,12 +22,26 @@ import WrappedSummaryRedirectCard from "./components/WrappedSummaryRedirectCard"
 
 export default function Wrapped(){
 
+  const hasShownNotification = useRef(false);
+
     const gradient="linear-gradient(135deg, #a18cd1, #fbc2eb)"
 
     const {user}=useParams()
     const location = useLocation();
     const state=location.state
     const navigate=useNavigate()
+
+    useEffect(() => {
+      if (!hasShownNotification.current) {
+        notification.open({
+          message: 'Here’s Your GitHub Meme Wrapped!',
+          description: 'You can drag the cards to explore different insights.',
+          placement: 'top',
+          duration: 5, 
+        });
+        hasShownNotification.current = true; 
+      }
+    }, []);
 
     useEffect(()=>{
       if(!state){
