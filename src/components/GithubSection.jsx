@@ -6,7 +6,7 @@ const GitHubSection = () => {
       <div className="github-section py-8 bg-gray-900 text-white text-center">
         <div className="container mx-auto flex flex-col items-center">
           <a
-            href="https://github.com/Saad1926Q/github-wrapped" 
+            href="https://github.com/Saad1926Q/github-meme-wrapped" 
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 text-gray-300 hover:text-white"
