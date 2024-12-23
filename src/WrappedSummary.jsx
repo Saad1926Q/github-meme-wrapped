@@ -41,7 +41,7 @@ const WrappedSummary=()=>{
 
         handleDownloadImage()
         
-        const message = `So I got my GitHub Wrapped for this year, and my developer personality was ${developerPersonality.name}. I made ${totalContributions} contributions this year, and I raised ${pullRequests} PRs. You can get yours at [GitHub Wrapped URL].`;
+        const message = `So I got my GitHub Wrapped for this year, and my developer personality was ${developerPersonality.name}. I made ${totalContributions} contributions this year, and I raised ${pullRequests} PRs. You can get yours at https://github-meme-wrapped.vercel.app/.`;
       
         const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
       
