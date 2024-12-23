@@ -1,3 +1,5 @@
+
+
 # **GitHub Meme Wrapped 🎉**  
 
 So, I made my own take on the *Spotify Wrapped* idea, but for GitHub! 😎 In order to give it a bit of my own flair, I decided to **memify** it. It’s not like some huge, super complex project or anything, but I had a ton of fun building it, and I hope you enjoy it too!  
@@ -5,6 +7,10 @@ So, I made my own take on the *Spotify Wrapped* idea, but for GitHub! 😎 In or
 This little app generates a personalized summary of your year on GitHub, showcasing your **contributions**, **PRs**, and the *developer personality* that makes you who you are. You can also share your GitHub Wrapped on Twitter and LinkedIn to show off your year!  
 
 🎯 **Check it out here**: [https://github-meme-wrapped.vercel.app/](https://github-meme-wrapped.vercel.app/)  
+
+---
+![GitHub Meme Wrapped Screenshot](https://i.imgur.com/v1Kvwd1.png)
+
 
 ---
 
